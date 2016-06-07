@@ -42,8 +42,8 @@ async def on_message(message):
 
 
 	if message.content.startswith(cmd_start + "logout"):
-			await client.send_message(message.channel, "Logging out...")
-			await client.logout()
+		await client.send_message(message.channel, "Logging out...")
+		await client.logout()
 
 
 	if message.content.startswith(cmd_start + "john" + " start bet"):
@@ -69,4 +69,4 @@ async def on_ready():
 
 
 #note that in order to run, the 'token' must be replaced
-client.run('moodhtaed@outlook.com',"BaconRocks42")
+client.run("token")
