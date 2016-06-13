@@ -1,72 +1,114 @@
 import discord
 import random
 
-client = discord.Client()
+bot = discord.Client()
 cmd_start = "+" #in case a command is added to change this, for example using !
 
 
-class bet_values():
-	"""docstring for ClassName"""
-	def __init__(self, username, max_cap, curr_val):
-		self.username = username
-		self.max_cap = max_cap
-		self.curr_val = curr_val
+def txt_save(file_name, username, inc_amt = 1):
+	file = open(file_name, "r")
+	data = file.readlines()
+
+	board = {}
+	for i in range(0, len(data)):
+		if i % 2 == 0:
+			board[data[i]] = int(data[i+1])
+
+	if username + "\n" in board:
+		board[username + "\n"] += inc_amt
+	else:
+		board[username + "\n"] = inc_amt
+
+	v = board.items()
+	data.clear()
+	for i in v:
+		for x in i:
+			data.append(str(x))
+
+	for i in range(0, len(data)):
+		if not data[i].endswith("\n"):
+			data [i] = data[i] + "\n"
+
+	file = open(file_name, "w")
+	file.writelines(data)
+	file.close()
 
 
-@client.event
+@bot.event
 async def on_message(message):
-	# we do not want the client to reply to itself
-	if message.author == client.user:
+	# we do not want the bot to reply to itself
+	if message.author == bot.user:
 		return
 
 	if message.content.startswith(cmd_start + 'guess'):
-		await client.send_message(message.channel, 'Guess a number between 1 to 10')
+		await bot.send_message(message.channel, "Okay, " + message.author.name + ', guess a number between 1 to 10')
 
 		def guess_check(m):
 			return m.content.isdigit()
 
-		guess = await client.wait_for_message(timeout=5.0, author=message.author, check=guess_check)
 		answer = random.randint(1, 10)
+		print(answer) #Filthy cheaters
+
+		guess = await bot.wait_for_message(timeout=5.0, author=message.author, check=guess_check)
+
 		if guess is None:
 			fmt = 'Sorry, you took too long. It was {}.'
-			await client.send_message(message.channel, fmt.format(answer))
+			await bot.send_message(message.channel, fmt.format(answer))
 			return
 		if int(guess.content) == answer:
-			await client.send_message(message.channel, 'You are right!')
+			await bot.send_message(message.channel, 'You are right!')
+
+			txt_save("guessing_game_scoreboard.txt", message.author.name)
+
 		else:
-			await client.send_message(message.channel, 'Sorry. It is actually {}.'.format(answer))
+			await bot.send_message(message.channel, 'Sorry. It is actually {}.'.format(answer))
 
 
 	if message.content.startswith(cmd_start + "pizza"):
-			await client.send_message(message.channel, "https://images-1.discordapp.net/.eJwFwdtugjAAANB_4b0Q5CL41rDKVeQSqdkLYbSpbCAFShkz_vvOeSnr3Csn5SEEX06a1g0Nows4qKRb2nEmDefqkwpNpdFGdoSubIc5vHi1AyHukzuLjXmU5Tn8QUW7TeZ9qG23pK0ZGDjNbX06g8GBw14hU08X1wsjKrwqNFt6wGRC6NbhXoIi922LMGYEeOSAuM6X4xl-85GMW-IE39A66nLNjlUlcV3-TWBLfz_3rFH1jACx2nFZ3yIU71eEee0XMi6si8qfTHn_A2MwSWM.nP75fsEm6h7n1fYeThH6ZpNC-MI.png")
+		#pizza
+		await bot.send_message(message.channel, "https://images-1.discordapp.net/.eJwFwdtugjAAANB_4b0Q5CL41rDKVeQSqdkLYbSpbCAFShkz_vvOeSnr3Csn5SEEX06a1g0Nows4qKRb2nEmDefqkwpNpdFGdoSubIc5vHi1AyHukzuLjXmU5Tn8QUW7TeZ9qG23pK0ZGDjNbX06g8GBw14hU08X1wsjKrwqNFt6wGRC6NbhXoIi922LMGYEeOSAuM6X4xl-85GMW-IE39A66nLNjlUlcV3-TWBLfz_3rFH1jACx2nFZ3yIU71eEee0XMi6si8qfTHn_A2MwSWM.nP75fsEm6h7n1fYeThH6ZpNC-MI.png")
 
 
 	if message.content.startswith(cmd_start + "logout"):
-		await client.send_message(message.channel, "Logging out...")
-		await client.logout()
+		await bot.send_message(message.channel, "Logging out...")
+		await bot.logout()
 
 
-	if message.content.startswith(cmd_start + "john" + " start bet"):
-		await client.send_message(message.author, "What is your maximum amount of points you can hold at once?")
-		
-		cap = await client.wait_for_message(timeout=7.5, author=message.author)
+	john_inv = cmd_start + "john"
+	if message.content.startswith(john_inv):
+		john_cmd = message.content 
+		if john_cmd.endswith("start"):
+			await bot.send_message(message.author, "What is your maximum amount of points you can hold at once?")
+			
+			cap = await bot.wait_for_message(timeout=7.5, author=message.author)
 
-		if cap == None:
-			await client.send_message(message.author, "Response timed out")
-		if int(cap.content) == 7 or 10:
-			await client.send_message(message.author, "Max cap sent to " + str(cap.content))
-			betee = bet_values(message.author.name, cap.content, cap.content)
-		else:
-			await client.send_message(message.author, "Invalid bet amount")
+			if cap == None:
+				await bot.send_message(message.author, "Response timed out")
+			if int(cap.content) == 7 or 10:
+				await bot.send_message(message.author, "Max cap sent to " + str(cap.content))
+				
+			else:
+				await bot.send_message(message.author, "Invalid bet amount")
+		elif john_cmd.endswith(john_cmd + "bet"):
+			await bot.send_message(message.author, "Okay, how much?")
 
+			def bet_check(x):
+				return x.content.isdigit()
 
-@client.event
+			bet = await bot.wait_for_message(timeout=5.0, author=message.author, check=bet_check)
+			if bet == None:
+				await bot.send_message(message.author, "Sorry, you took too long")
+			else:
+				txt_save("John_bets.txt", message.author.name, inc_amt = int(bet.content))
+
+@bot.event
 async def on_ready():
     print('Logged in as')
-    print(client.user.name)
-    print(client.user.id)
+    print(bot.user.name)
+    print(bot.user.id)
     print('------')
 
 
-#note that in order to run, the 'token' must be replaced
-client.run("token")
+#note that in order to run, the "token" must be replaced
+#MTkwMjk2NTk0NTczMTY0NTQ1.CjprAw.rDP5z_CuVOWeb6wSnC8OdE1qK0M, bot token once I get OAuth2 wokring
+bot.run("token")
