@@ -49,7 +49,7 @@ async def on_message(message):
 		answer = random.randint(1, 10)
 		print(answer) #Filthy cheaters
 
-		guess = await bot.wait_for_message(timeout=5.0, author=message.author, check=guess_check)
+		guess = await bot.wait_for_message(timeout=5.0, author=message.author)
 
 		if guess is None:
 			fmt = 'Sorry, you took too long. It was {}.'
@@ -110,5 +110,5 @@ async def on_ready():
 
 
 #note that in order to run, the "token" must be replaced
-#MTkwMjk2NTk0NTczMTY0NTQ1.CjprAw.rDP5z_CuVOWeb6wSnC8OdE1qK0M, bot token once I get OAuth2 wokring
+#MTkwMjk2NTk0NTczMTY0NTQ1.CjprAw.rDP5z_CuVOWeb6wSnC8OdE1qK0M, bot token once I get OAuth2 working
 bot.run("token")
