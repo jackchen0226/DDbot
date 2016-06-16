@@ -56,7 +56,7 @@ async def add(left : int, right : int):
 
 
 @bot.command()
-async def roll(dice : str):
+async def roll(dice="1d20"):
     """Rolls a dice in NdN format."""
     try:
         rolls, limit = map(int, dice.split('d'))
