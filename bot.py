@@ -179,5 +179,4 @@ async def john(ctx, proc: str):
 
 
 #note that in order to run, the "token" must be replaced
-#MTkwMjk2NTk0NTczMTY0NTQ1.CjprAw.rDP5z_CuVOWeb6wSnC8OdE1qK0M, bot token once I get OAuth2 working
 bot.run("token")
