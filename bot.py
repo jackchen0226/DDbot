@@ -127,20 +127,15 @@ async def guess(ctx):
     """A simple guessing game."""
     await bot.say("Okay, {}, guess a number between 1 to 10".format(ctx.message.author.name))
 
-    def guess_check(m):
-        return m.content.isdigit()
-
     answer = random.randint(1, 10)
     print(answer) #Filthy cheaters
 
-    guess = await bot.wait_for_message(timeout=5.0, author=ctx.message.author)
-
-    """if guess is None:
-        fmt = 'Sorry, you took too long. It was {}.'
-        await bot.say(fmt.format(answer))
-        return"""
     try:
-        print(guess.content)
+        guess = await bot.wait_for_message(timeout=5.0, author=ctx.message.author)
+        if guess is None:
+            fmt = 'Sorry, you took too long. It was {}.'
+            await bot.say(fmt.format(answer))
+            return
         guess_int = int(guess.content)
         print(guess_int)
         if guess_int == answer:
@@ -149,7 +144,8 @@ async def guess(ctx):
         else:
             await bot.say('Sorry. It is actually {}.'.format(answer))
     except ValueError:
-        bot.say("That is not a number. Try again")
+        await bot.say("That is not a number.")
+        return
         
 
 @bot.command(pass_context = True)
