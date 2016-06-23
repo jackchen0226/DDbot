@@ -181,4 +181,4 @@ async def john(ctx, proc: str):
 
 
 #note that in order to run, the "token" must be replaced
-bot.run("moodhtaed@outlook.com","BaconRocks42")
+bot.run("token")
