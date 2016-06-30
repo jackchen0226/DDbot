@@ -14,12 +14,13 @@ def pkl_save():
     #Saving feature__________________________________________________________
     score = [2,9,5,6]
     IDs = [106654592351096832, 140509364262797312, 163711238126174219, 82048430951632896]
-    username = ['deathdoom13', 'Yep', 'Skyrimman', 'MrShiny1']
+    username = ['deathdoom13', 'Yep', 'Skyrimman', 'MrShiny1'] #list is probably not necessary since message.author.name gives the same result
     column = ["ID", "score", "username"]
+    
 
     data = []
 
-    for x in range(0,4):
+    for x in range(0, len(IDs)): #IDs are the most unique here and never changes, used as basis for everything
         temp_data = [IDs[x], score[x], username[x]]
         data.append(temp_data)
         temp_data = []
@@ -28,15 +29,24 @@ def pkl_save():
     print(scoreboard)
 
     #Extracting and editing feature____________________________________________
-    print(scoreboard.iloc[0,1])
-    scoreboard.iloc[0, 1] += 1
+    if 106654592351096832 in scoreboard["ID"]: #will need to replace ID and iloc arguments to dicord given variables
+        scoreboard.iloc[0, 1] += 1
+    if 106654592351096832 no in scoreboard["ID"]:
+        scoreboard.append(data=[106654592351096832, 1, message.author.username])
     print(scoreboard["score"])
 
     score_test = []
-    for x in range(0, 4):
+    #score_test would be innocous to the list "score" and would be placed back into the dataframe using the for loop in saving feature
+    for x in range(0, len(IDs)):
         score_test.append(scoreboard["score"][x])
+    
+    #loop needs more testing later
+    for i in range(0, len(IDs)):
+        data.append(score_test[i])
+        data.append(IDs[i])
+        data.append(username[i]) #again, probably not necessary
 
-    print(score_test)
+    print(data)
 
 def txt_save(file_name, username, inc_amt = 1):
     file = open(file_name, "r")
