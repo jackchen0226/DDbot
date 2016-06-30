@@ -6,7 +6,7 @@
 Welcome to DDbot's documentation!
 =================================
 
-.. automodule:: mod
+.. automodule:: bot.py
 
 Indices and tables
 ==================
