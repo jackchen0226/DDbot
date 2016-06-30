@@ -1,12 +1,42 @@
 import discord
 from discord.ext import commands
 import random
+import pandas as pd
+import numpy as np
 
 description = '''An example bot to showcase the discord.ext.commands extension
 module.
 There are a number of utility commands being showcased here.'''
 bot = commands.Bot(command_prefix='+', description=description)
 
+#Does not yet work
+def pkl_save():
+    #Saving feature__________________________________________________________
+    score = [2,9,5,6]
+    IDs = [106654592351096832, 140509364262797312, 163711238126174219, 82048430951632896]
+    username = ['deathdoom13', 'Yep', 'Skyrimman', 'MrShiny1']
+    column = ["ID", "score", "username"]
+
+    data = []
+
+    for x in range(0,4):
+        temp_data = [IDs[x], score[x], username[x]]
+        data.append(temp_data)
+        temp_data = []
+
+    scoreboard = pd.DataFrame(data, columns=column)
+    print(scoreboard)
+
+    #Extracting and editing feature____________________________________________
+    print(scoreboard.iloc[0,1])
+    scoreboard.iloc[0, 1] += 1
+    print(scoreboard["score"])
+
+    score_test = []
+    for x in range(0, 4):
+        score_test.append(scoreboard["score"][x])
+
+    print(score_test)
 
 def txt_save(file_name, username, inc_amt = 1):
     file = open(file_name, "r")
