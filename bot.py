@@ -170,14 +170,19 @@ async def john(ctx, proc: str):
         def bet_check(x):
             return x.content.isdigit()
 
-        bet = await bot.wait_for_message(timeout=5.0, author=ctx.message.author, check=bet_check)
+        try:
+            bet = await bot.wait_for_message(timeout=5.0, author=ctx.message.author, check=bet_check)
 
-        #Currently you can bet higher than the max amount, FIX THIS !!!!!!!!!!!
-        if bet == None:
-            await bot.send_message(ctx.message.author, "Sorry, you took too long")
-        else:
+            if bet == None:
+                await bot.send_message(ctx.message.author, "Sorry, you took too long")
+                return
+
+            bet_test = int(bet.content)
+            #Currently you can bet higher than the max amount, FIX THIS !!!!!!!!!!! 
             await bot.send_message(ctx.message.author, "Okay, your current bet is set to" + str(bet.content))
             txt_save("John_bets.txt", ctx.message.author.name, inc_amt = int(bet.content))
+        except ValueError:
+            await bot.say("That is not a number.")
 
 
 #note that in order to run, the "token" must be replaced
