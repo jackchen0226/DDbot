@@ -12,7 +12,7 @@ Members
 =======
 """
 
-from bot import pizza, guess, logout
+import bot
 
 VERSION = "0.01"
 """The version of this module."""
