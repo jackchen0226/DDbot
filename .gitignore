@@ -1,3 +1,4 @@
 #Text Files
 *.txt
 *.pkl
+__bot__.py_
