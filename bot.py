@@ -10,43 +10,41 @@ There are a number of utility commands being showcased here.'''
 bot = commands.Bot(command_prefix='+', description=description)
 
 #Does not yet work
-def pkl_save():
-    #Saving feature__________________________________________________________
-    score = [2,9,5,6]
-    IDs = [106654592351096832, 140509364262797312, 163711238126174219, 82048430951632896]
-    username = ['deathdoom13', 'Yep', 'Skyrimman', 'MrShiny1'] #list is probably not necessary since message.author.name gives the same result
-    column = ["ID", "score", "username"]
-    
+def pkl_save(file_name, iden, inc_amt=1):
+    column = ["ID", "score"]
+    try:
+        #Extracting and editing feature____________________________________________
+        scoreboard = pd.read_pickle(file_name)
+        print(scoreboard)
 
-    data = []
+        #parses for score and increases it by 1 if person's id is here
+        frame_contains_id = False
+        for i in range(0, scoreboard["ID"].size):
+            if iden == scoreboard.iloc[i, 0]: #ID is searched
+                frame_contains_id = True
+                scoreboard.iloc[i,1] += 1 #score increases
+                break
+            else:
+                print(scoreboard.iloc[i, 0])
+                pass
 
-    for x in range(0, len(IDs)): #IDs are the most unique here and never changes, used as basis for everything
-        temp_data = [IDs[x], score[x], username[x]]
-        data.append(temp_data)
-        temp_data = []
+        #score_test would be innocous to the list "score" and would be placed back into the dataframe using the for loop in saving feature
+        data = []
+        for x in range(0, scoreboard["ID"].size):
+            temp_data = [scoreboard["ID"][x], scoreboard["score"][x]]
+            data.append(temp_data)
+            temp_data = []
+        if frame_contains_id == False:
+            #if data does not caontain users id
+            data.append(iden, 1)
+        
+        scoreboard = pd.DataFrame(data, columns=column)
+        print(scoreboard)
+        scoreboard.to_pickle(file_name)
+    except FileNotFoundError:
+        new_file = pd.DataFrame([iden, 1], columns=column)
+        new.to_pickle(file_name)
 
-    scoreboard = pd.DataFrame(data, columns=column)
-    print(scoreboard)
-
-    #Extracting and editing feature____________________________________________
-    if 106654592351096832 in scoreboard["ID"]: #will need to replace ID and iloc arguments to dicord given variables
-        scoreboard.iloc[0, 1] += 1
-    if 106654592351096832 no in scoreboard["ID"]:
-        scoreboard.append(data=[106654592351096832, 1, message.author.username])
-    print(scoreboard["score"])
-
-    score_test = []
-    #score_test would be innocous to the list "score" and would be placed back into the dataframe using the for loop in saving feature
-    for x in range(0, len(IDs)):
-        score_test.append(scoreboard["score"][x])
-    
-    #loop needs more testing later
-    for i in range(0, len(IDs)):
-        data.append(score_test[i])
-        data.append(IDs[i])
-        data.append(username[i]) #again, probably not necessary
-
-    print(data)
 
 def txt_save(file_name, username, inc_amt = 1):
     file = open(file_name, "r")
@@ -180,7 +178,7 @@ async def guess(ctx):
         print(guess_int)
         if guess_int == answer:
             await bot.say('You are right!')
-            txt_save("guessing_game_scoreboard.txt", ctx.message.author.name)
+            pkl_save("guessing_game_scoreboard.pkl", ctx.message.author.id)
         else:
             await bot.say('Sorry. It is actually {}.'.format(answer))
     except ValueError:
@@ -221,4 +219,4 @@ async def john(ctx, proc: str):
 
 
 #note that in order to run, the "token" must be replaced
-bot.run("token")
+bot.run("moodhtaed@outlook.com","BaconRocks42")
