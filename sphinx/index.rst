@@ -6,7 +6,14 @@
 Welcome to DDbot's documentation!
 =================================
 
-.. automodule:: bot.py
+Contents:
+
+.. toctree::
+   :maxdepth: 2
+
+
+.. automodule:: bot
+
 
 Indices and tables
 ==================
