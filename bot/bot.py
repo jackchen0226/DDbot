@@ -63,8 +63,19 @@ async def add(left : int, right : int):
 
 
 @bot.command()
-async def roll(dice="1d20"):
-    """Rolls a dice in NdN format."""
+async def roll(dice="1d20", description="Rolls a dice in NdN format."):
+    """Testing, 
+
+
+    Parameters
+    ----------
+    dice : Optional[str]
+        Should be in a NdN format for the first N is the amount of die and the second because the size of the die
+
+    Returns
+    -------
+    Integers containing the rolled numbers separated by commas
+    """
     try:
         rolls, limit = map(int, dice.split('d'))
     except Exception:
@@ -193,4 +204,4 @@ async def john(ctx, proc: str):
 
 
 #note that in order to run, the "token" must be replaced
-bot.run("token")
+bot.run("MTkwMjk2NTk0NTczMTY0NTQ1.CmmOsA.svZpEW6DLlBsncFXpKOlHDfoTeY")
