@@ -206,4 +206,4 @@ async def john(ctx, proc: str):
 
 
 #note that in order to run, the "token" must be replaced
-bot.run("MTkwMjk2NTk0NTczMTY0NTQ1.CmmOsA.svZpEW6DLlBsncFXpKOlHDfoTeY")
+bot.run("token")
