@@ -278,4 +278,4 @@ async def rickroll(ctx):
     player.volume = 0.1
 
 # note that in order to run, the "token" must be replaced
-bot.run("MTkwMjk2NTk0NTczMTY0NTQ1.Cmgoqw.0yyUwG_uRZKOz_5uxWJFkz7qCng")
+bot.run("token")
