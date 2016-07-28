@@ -14,6 +14,9 @@ Contents:
 
 .. automodule:: bot
 
+    Members
+    =======
+
 
 Indices and tables
 ==================

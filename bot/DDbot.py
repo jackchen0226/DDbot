@@ -1,7 +1,5 @@
 """The main bot module containing :meth:`pizza` and :meth:`guess`.
 
-Members
-=======
 """
 
 import discord
@@ -278,4 +276,7 @@ async def rickroll(ctx):
     player.volume = 0.1
 
 # note that in order to run, the "token" must be replaced
-bot.run("token")
+if __name__ == '__main__':
+    from bot_secret import token
+    bot.run(token)
+

@@ -6,13 +6,11 @@ Submodules
 .. autosummary::
     :toctree: _autosummary
 
-    bot
+    bot.DDbot
 
-Members
-=======
 """
 
-import bot
+from . import DDbot
 
 VERSION = "0.01"
 """The version of this module."""
